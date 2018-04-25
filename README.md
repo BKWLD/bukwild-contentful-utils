@@ -40,14 +40,6 @@ In `nuxt.config.js`:
         space: process.env.CONTENTFUL_SPACE
         access_token: process.env.CONTENTFUL_API
         host: process.env.CONTENTFUL_HOST
-      },
-      merge: {
-
-        customHelper: function({ client }) {
-          return function() {
-          }
-
-        }
       }
     }]
   ]

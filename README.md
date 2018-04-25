@@ -129,17 +129,20 @@ export default {
 `$contentful.getEntry(contentType:string, query:Object)`
 - `contentType` : A Contentful content type
 - `query` : Additional query options that will get merged
+
 _Gets a single Entry, merging its id and create/update dates into the fields and returning *only* the fields themselves (not sys)_
 
 `$contentful.getEntryBySlug(contentType:string, slug:String, query:Object)`
 - `contentType` : A Contentful content type
 - `slug` : A value should that match a `slug` property on the content model
 - `query` : Additional query options that will get merged
+
 _Like `getEntry`, but looks up by slug_
 
 `$contentful.getEntries(contentType:string, query:Object)`
 - `contentType` : A Contentful content type
 - `query` : Additional query options that will get merged
+
 _Get a list of entries for a given content type_
 
 `$contentful.getPaginatedEntries(contentType:string, pagination:Object, query:Object)`
@@ -149,6 +152,7 @@ _Get a list of entries for a given content type_
   - `perPage` : How many to fetch per page, defaults to `12`
   - `initialPerPage` : Optionally set a different number of results on first page
 - `query` : Additional query options that will get merged
+
 _Get a slice of entries given pagination params_
 
 ### SEO

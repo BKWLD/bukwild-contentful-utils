@@ -86,8 +86,7 @@ Helper method for creating Contentful URLs that transform images:
 #### Example
 
 ```js
-{ image } = require('bukwild-contentful-utils')
-image(entry.image, 500, 300, { quality: 60 })
+this.$contentful.image(entry.image, 500, 300, { quality: 60 })
 ```
 
 #### API
@@ -105,6 +104,56 @@ image(entry.image, 500, 300, { quality: 60 })
 - JPGs will be progressive
 - Returns `null` if no image has been defined
 
+### Queries
+
+Some helper methods for querying Contentful
+
+#### Example
+
+```js
+export default {
+
+  // Fetch an article which has a reference field called "seo" that is our SEO
+  // content model
+  asyncData: async function({ app }) {
+    [ article, articles ] = await Promise.all([
+      app.$contentful.getEntryBySlug('article', 'my-slug'),
+      app.$contentful.getPaginatedEntries('article', {
+        page: 2,
+        perPage: 40,
+      }),
+    ])
+    return { article, articles }
+  },
+```
+
+#### APIs
+
+`$contentful.getEntry(contentType:string, query:Object)`
+_Gets a single Entry, merging its id and create/update dates into the fields and returning *only* the fields themselves (not sys)_
+- `contentType` : A Contentful content type
+- `query` : Additional query options that will get merged
+
+`$contentful.getEntryBySlug(contentType:string, slug:String, query:Object)`
+_Like `getEntry`, but looks up by slug_
+- `contentType` : A Contentful content type
+- `slug` : A value should that match a `slug` property on the content model
+- `query` : Additional query options that will get merged
+
+`$contentful.getEntries(contentType:string, query:Object)`
+_Get a list of entries for a given content type_
+- `contentType` : A Contentful content type
+- `query` : Additional query options that will get merged
+
+`$contentful.getPaginatedEntries(contentType:string, pagination:Object, query:Object)`
+_Get a slice of entries given pagination params_
+- `contentType` : A Contentful content type
+- `pagination`
+  - `page` : The current page number, defaults to `1`
+  - `perPage` : How many to fetch per page, defaults to `12`
+  - `initialPerPage` : Optionally set a different number of results on first page
+- `query` : Additional query options that will get merged
+
 ### SEO
 
 A helper for setting seo-related fields in [Nuxt's `head` property](https://nuxtjs.org/api/configuration-head/).  This assumes you've created a Contentful content model for SEO fields that has the following fields:
@@ -118,21 +167,20 @@ A helper for setting seo-related fields in [Nuxt's `head` property](https://nuxt
 #### Example
 
 ```js
-{ seo, getEntryBySlug } = require('bukwild-contentful-utils')
 export default {
 
   // Fetch an article which has a reference field called "seo" that is our SEO
   // content model
-  asyncData: async function() {
+  asyncData: async function({ app }) {
     return {
-      article: await getEntryBySlug('article', 'my-slug')
+      article: await app.$contentful.getEntryBySlug('article', 'my-slug')
     }
   },
 
   // Use the SEO helper, passing in default SEO values from the article that
   // will be used if SEO options are not supplied
   head: function() {
-    return seo(this.article.seo, {
+    return this.$contentful.seo(this.article.seo, {
       title: this.article.title,
       description: this.article.abstract
     })

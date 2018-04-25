@@ -7,7 +7,7 @@ const utils = require('bukwild-contentful-utils/index.js')
 options = eval(<%= options %>)
 
 // Configure the API
-utils.config(options.api)
+utils.config(options.config)
 
 // Merge additional functions in
 utils.merge(options.merge)

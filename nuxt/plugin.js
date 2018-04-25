@@ -11,5 +11,5 @@ utils.config(options.config)
 
 // Inject the utils into the app
 module.exports = function(ctx, inject) {
-	inject('contentfulWip', utils)
+	inject('contentful', utils)
 }

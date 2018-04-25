@@ -90,13 +90,13 @@ image(entry.image, 500, 300, { quality: 60 })
 
 #### API
 
-- `image(field:Object, width:Integer, height:Integer, options:Object)`
-  - `fieldName` : The property on an entry result from Contentful for the image
-  - `width` : The desired image width
-  - `height`: The desired image height
-  - `options`
-    - `format` : Image format, defaults to 'jpg'
-    - `quality`: Image quality, defaults to `90` if a jpg
+`image(field:Object, width:Integer, height:Integer, options:Object)`
+- `fieldName` : The property on an entry result from Contentful for the image
+- `width` : The desired image width
+- `height`: The desired image height
+- `options`
+  - `format` : Image format, defaults to 'jpg'
+  - `quality`: Image quality, defaults to `90` if a jpg
 
 #### Notes
 

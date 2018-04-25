@@ -1,18 +1,16 @@
-/**
- * Nuxt loses the current directory at this point, so I had to refer to the
- * the directive src file through the module name.
- *
- * Also, I can't passthrough objects directly from module.js to here so I'm
- * serializing it and then parsing it back out so I can send arrays through to
- * the directive.
- */
+// Deps
 const Vue = require('vue')
 const serialize = require('serialize-javascript')
-const utils = require('bukwild-contentful-utils/index.coffee')
+const utils = require('bukwild-contentful-utils/index.js')
 
-// Merge addition utils in
+// Extract serialized options
 options = eval(<%= options %>)
-utils.merge(options)
+
+// Configure the API
+utils.config(options.api)
+
+// Merge additional functions in
+utils.merge(options.merge)
 
 // Inject the utils into the app
 module.exports = function(ctx, inject) {

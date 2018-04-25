@@ -2,7 +2,7 @@
 A helper for making the Nuxt head from a contentful SEO entry
 ###
 isObject = require 'lodash/isObject'
-defaults = require 'lodash/merge'
+merge = require 'lodash/merge'
 module.exports = (seo = {}, defaults) ->
 
 	# Merge seo reference on the entry (which may be absent) with an object of

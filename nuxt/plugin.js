@@ -9,10 +9,7 @@ options = eval(<%= options %>)
 // Configure the API
 utils.config(options.config)
 
-// Merge additional functions in
-utils.merge(options.merge)
-
 // Inject the utils into the app
 module.exports = function(ctx, inject) {
-	inject('wip', utils)
+	inject('contentfulWip', utils)
 }

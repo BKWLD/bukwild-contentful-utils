@@ -9,9 +9,6 @@ makeClient = require './lib/client-factory'
 module.exports.config = (options) ->
 	module.exports.client = makeClient options
 
-# Merge additional functions into library
-module.exports.merge = ->
-
 # Add image helper
 module.exports.image = require './lib/image'
 

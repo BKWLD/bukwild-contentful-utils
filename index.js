@@ -8,7 +8,7 @@ var once = _interopDefault(require('lodash/once'));
 var contentful = _interopDefault(require('contentful'));
 var queryString = _interopDefault(require('query-string'));
 var isObject = _interopDefault(require('lodash/isObject'));
-var merge$1 = _interopDefault(require('lodash/merge'));
+var merge = _interopDefault(require('lodash/merge'));
 var defaults = _interopDefault(require('lodash/defaults'));
 
 function createCommonjsModule(fn, module) {
@@ -60,15 +60,17 @@ var image = function(field, width, height, options = {}) {
 /*
 A helper for making the Nuxt head from a contentful SEO entry
 */
-var isObject$1;
+var isObject$1, merge$1;
 
 isObject$1 = isObject;
+
+merge$1 = merge;
 
 var seo = function(seo = {}, defaults$$1) {
   var ref;
   // Merge seo reference on the entry (which may be absent) with an object of
   // default values pulled from an entry.
-  seo = merge({}, defaults$$1, seo.fields || {});
+  seo = merge$1({}, defaults$$1, seo.fields || {});
   if ((seo != null ? seo.image : void 0) && isObject$1(seo.image)) {
     // Get the image URL from raw image fields
     seo.image = seo.image.fields.file.url;
@@ -193,9 +195,9 @@ var queries_4 = queries.getEntryBySlug;
 
 var bukwildContentfulUtils = createCommonjsModule(function (module) {
 // Deps
-var makeClient, merge;
+var makeClient, merge$$1;
 
-merge = merge$1;
+merge$$1 = merge;
 
 // We will export an object
 module.exports = {};
@@ -207,9 +209,6 @@ module.exports.config = function(options) {
   return module.exports.client = makeClient(options);
 };
 
-// Merge additional functions into library
-module.exports.merge = function() {};
-
 // Add image helper
 module.exports.image = image;
 
@@ -217,17 +216,15 @@ module.exports.image = image;
 module.exports.seo = seo;
 
 // Add querying helpers
-merge(module.exports, queries);
+merge$$1(module.exports, queries);
 });
 var bukwildContentfulUtils_1 = bukwildContentfulUtils.config;
 var bukwildContentfulUtils_2 = bukwildContentfulUtils.client;
-var bukwildContentfulUtils_3 = bukwildContentfulUtils.merge;
-var bukwildContentfulUtils_4 = bukwildContentfulUtils.image;
-var bukwildContentfulUtils_5 = bukwildContentfulUtils.seo;
+var bukwildContentfulUtils_3 = bukwildContentfulUtils.image;
+var bukwildContentfulUtils_4 = bukwildContentfulUtils.seo;
 
 exports.default = bukwildContentfulUtils;
 exports.config = bukwildContentfulUtils_1;
 exports.client = bukwildContentfulUtils_2;
-exports.merge = bukwildContentfulUtils_3;
-exports.image = bukwildContentfulUtils_4;
-exports.seo = bukwildContentfulUtils_5;
+exports.image = bukwildContentfulUtils_3;
+exports.seo = bukwildContentfulUtils_4;

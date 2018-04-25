@@ -17,3 +17,6 @@ module.exports.image = require './lib/image'
 
 # Add seo helper
 module.exports.seo = require './lib/seo'
+
+# Add querying helpers
+merge module.exports, require './lib/queries'

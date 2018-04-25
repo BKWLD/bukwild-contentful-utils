@@ -1,6 +1,7 @@
 # Build the contentful client
+once = require 'lodash/once'
 contentful = require 'contentful'
-module.exports = (options) -> contentful.createClient
+module.exports = once (options) -> contentful.createClient
 	space: options.space
 	accessToken: options.access_token
 	host: options.host || 'cdn.contentful.com'

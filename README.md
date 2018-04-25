@@ -83,6 +83,8 @@ See the Configuration instructions for an example of how to get access to the ra
 
 Helper method for creating Contentful URLs that transform images:
 
+#### Example
+
 ```js
 { image } = require('bukwild-contentful-utils')
 image(entry.image, 500, 300, { quality: 60 })
@@ -102,3 +104,44 @@ image(entry.image, 500, 300, { quality: 60 })
 
 - JPGs will be progressive
 - Returns `null` if no image has been defined
+
+### SEO
+
+A helper for setting seo-related fields in [Nuxt's `head` property](https://nuxtjs.org/api/configuration-head/).  This assumes you've created a Contentful content model for SEO fields that has the following fields:
+
+- `title`
+- `description`
+- `image` (file, used for open graph image)
+- `robots` (radios, may be `noindex`, `nofollow`, `noarchive` )
+- `canonical` (text, canonical url)
+
+#### Example
+
+```js
+{ seo, getEntryBySlug } = require('bukwild-contentful-utils')
+export default {
+
+  // Fetch an article which has a reference field called "seo" that is our SEO
+  // content model
+  asyncData: async function() {
+    return {
+      article: await getEntryBySlug('article', 'my-slug')
+    }
+  },
+
+  // Use the SEO helper, passing in default SEO values from the article that
+  // will be used if SEO options are not supplied
+  head: function() {
+    return seo(this.article.seo, {
+      title: this.article.title,
+      description: this.article.abstract
+    })
+  },
+}
+```
+
+#### API
+
+`seo(seoReference:Object, defaults:Object)`
+- `seoReference` : The property on your entry which contains the SEO content model reference
+- `defaults` : An object whose values will be used in case the SEO content model is missing an attribute

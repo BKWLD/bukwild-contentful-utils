@@ -22,7 +22,9 @@ export default {
     format: 'cjs'
   },
   external: [
+    'lodash/defaults',
+    'lodash/isObject',
     'lodash/merge',
-    'lodash/isObject'
+    'lodash/once'
   ]
 }

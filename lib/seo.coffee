@@ -2,11 +2,12 @@
 A helper for making the Nuxt head from a contentful SEO entry
 ###
 isObject = require 'lodash/isObject'
+defaults = require 'lodash/merge'
 module.exports = (seo = {}, defaults) ->
 
 	# Merge seo reference on the entry (which may be absent) with an object of
 	# default values pulled from an entry.
-	seo = Object.assign {}, defaults, seo.fields || {}
+	seo = merge {}, defaults, seo.fields || {}
 
 	# Get the image URL from raw image fields
 	seo.image = seo.image.fields.file.url if seo?.image and isObject seo.image

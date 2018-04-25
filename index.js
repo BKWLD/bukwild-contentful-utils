@@ -128,18 +128,19 @@ var queries = createCommonjsModule(function (module) {
 /*
 Helpers to build reusuable queries
 */
-var client, defaults$$1;
+var defaults$$1, getClient;
 
 // Deps
 defaults$$1 = defaults;
 
-client = clientFactory;
+getClient = clientFactory;
 
 // Gonna export an object
 module.exports = {};
 
 // Get a list of entries given a content type
 module.exports.getEntries = function(contentType, options = {}) {
+  var client;
   client = getClient();
   return client.getEntries(defaults$$1(options, {
     content_type: contentType
@@ -166,7 +167,7 @@ module.exports.getPaginatedEntries = function(contentType, {page = 1, perPage = 
 
 // Get a single item
 module.exports.getEntry = async function(contentType, query = {}) {
-  var entry, fields;
+  var client, entry, fields;
   client = getClient();
   entry = (await client.getEntries(defaults$$1(query, {
     content_type: contentType,
@@ -194,8 +195,7 @@ var queries_3 = queries.getEntry;
 var queries_4 = queries.getEntryBySlug;
 
 var bukwildContentfulUtils = createCommonjsModule(function (module) {
-// Deps
-var makeClient, merge$$1;
+var makeClient, merge$$1, queries$$1;
 
 merge$$1 = merge;
 
@@ -205,8 +205,12 @@ module.exports = {};
 // Accept the API configuration and create the client instance
 makeClient = clientFactory;
 
+module.exports.client = {}; // Needed for the client to be added later
+
 module.exports.config = function(options) {
-  return module.exports.client = makeClient(options);
+  return merge$$1(module.exports, {
+    client: makeClient(options)
+  });
 };
 
 // Add image helper
@@ -216,15 +220,31 @@ module.exports.image = image;
 module.exports.seo = seo;
 
 // Add querying helpers
-merge$$1(module.exports, queries);
+queries$$1 = queries;
+
+module.exports.getEntries = queries$$1.getEntries;
+
+module.exports.getPaginatedEntries = queries$$1.getPaginatedEntries;
+
+module.exports.getEntry = queries$$1.getEntry;
+
+module.exports.getEntryBySlug = queries$$1.getEntryBySlug;
 });
-var bukwildContentfulUtils_1 = bukwildContentfulUtils.config;
-var bukwildContentfulUtils_2 = bukwildContentfulUtils.client;
+var bukwildContentfulUtils_1 = bukwildContentfulUtils.client;
+var bukwildContentfulUtils_2 = bukwildContentfulUtils.config;
 var bukwildContentfulUtils_3 = bukwildContentfulUtils.image;
 var bukwildContentfulUtils_4 = bukwildContentfulUtils.seo;
+var bukwildContentfulUtils_5 = bukwildContentfulUtils.getEntries;
+var bukwildContentfulUtils_6 = bukwildContentfulUtils.getPaginatedEntries;
+var bukwildContentfulUtils_7 = bukwildContentfulUtils.getEntry;
+var bukwildContentfulUtils_8 = bukwildContentfulUtils.getEntryBySlug;
 
 exports.default = bukwildContentfulUtils;
-exports.config = bukwildContentfulUtils_1;
-exports.client = bukwildContentfulUtils_2;
+exports.client = bukwildContentfulUtils_1;
+exports.config = bukwildContentfulUtils_2;
 exports.image = bukwildContentfulUtils_3;
 exports.seo = bukwildContentfulUtils_4;
+exports.getEntries = bukwildContentfulUtils_5;
+exports.getPaginatedEntries = bukwildContentfulUtils_6;
+exports.getEntry = bukwildContentfulUtils_7;
+exports.getEntryBySlug = bukwildContentfulUtils_8;

@@ -1,4 +1,3 @@
-# Deps
 merge = require 'lodash/merge'
 
 # We will export an object
@@ -6,8 +5,9 @@ module.exports = {}
 
 # Accept the API configuration and create the client instance
 makeClient = require './lib/client-factory'
+module.exports.client = {} # Needed for the client to be added later
 module.exports.config = (options) ->
-	module.exports.client = makeClient options
+	merge module.exports, client: makeClient options
 
 # Add image helper
 module.exports.image = require './lib/image'
@@ -16,4 +16,8 @@ module.exports.image = require './lib/image'
 module.exports.seo = require './lib/seo'
 
 # Add querying helpers
-merge module.exports, require './lib/queries'
+queries = require './lib/queries'
+module.exports.getEntries = queries.getEntries
+module.exports.getPaginatedEntries = queries.getPaginatedEntries
+module.exports.getEntry = queries.getEntry
+module.exports.getEntryBySlug = queries.getEntryBySlug

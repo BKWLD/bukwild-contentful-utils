@@ -112,9 +112,6 @@ Some helper methods for querying Contentful
 
 ```js
 export default {
-
-  // Fetch an article which has a reference field called "seo" that is our SEO
-  // content model
   asyncData: async function({ app }) {
     [ article, articles ] = await Promise.all([
       app.$contentful.getEntryBySlug('article', 'my-slug'),

@@ -28,7 +28,6 @@ module.exports.getPaginatedEntries = (contentType, {
 
 	# Form pagination query
 	query = defaults options,
-		order: '-fields.date'
 		skip: if page == 1 then 0 else (page - 2) * perPage + initialPerPage
 		limit: if page == 1 then initialPerPage else perPage
 

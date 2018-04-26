@@ -8,7 +8,7 @@ var once = _interopDefault(require('lodash/once'));
 var contentful = _interopDefault(require('contentful'));
 var queryString = _interopDefault(require('query-string'));
 var isObject = _interopDefault(require('lodash/isObject'));
-var require$$1 = _interopDefault(require('lodash/merge'));
+var merge = _interopDefault(require('lodash/merge'));
 var defaults = _interopDefault(require('lodash/defaults'));
 
 function createCommonjsModule(fn, module) {
@@ -28,11 +28,6 @@ var clientFactory = once$1(function (options) {
     accessToken: options.access_token,
     host: options.host || 'cdn.contentful.com'
   });
-});
-
-var clientFactory$1 = /*#__PURE__*/Object.freeze({
-	default: clientFactory,
-	__moduleExports: clientFactory
 });
 
 /*
@@ -64,19 +59,14 @@ var image = function image(field, width, height) {
   return url + '?' + queryString$1.stringify(params);
 };
 
-var image$1 = /*#__PURE__*/Object.freeze({
-	default: image,
-	__moduleExports: image
-});
-
 /*
 A helper for making the Nuxt head from a contentful SEO entry
 */
-var isObject$1, merge;
+var isObject$1, merge$1;
 
 isObject$1 = isObject;
 
-merge = require$$1;
+merge$1 = merge;
 
 var seo = function seo() {
   var seo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -85,7 +75,7 @@ var seo = function seo() {
   var ref;
   // Merge seo reference on the entry (which may be absent) with an object of
   // default values pulled from an entry.
-  seo = merge({}, defaults$$1, seo.fields || {});
+  seo = merge$1({}, defaults$$1, seo.fields || {});
   if ((seo != null ? seo.image : void 0) && isObject$1(seo.image)) {
     // Get the image URL from raw image fields
     seo.image = seo.image.fields.file.url;
@@ -132,13 +122,6 @@ var seo = function seo() {
   };
 };
 
-var seo$1 = /*#__PURE__*/Object.freeze({
-	default: seo,
-	__moduleExports: seo
-});
-
-var require$$2 = ( clientFactory$1 && clientFactory ) || clientFactory$1;
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var queries = createCommonjsModule(function (module) {
@@ -150,7 +133,7 @@ var queries = createCommonjsModule(function (module) {
   // Deps
   defaults$$1 = defaults;
 
-  getClient = require$$2;
+  getClient = clientFactory;
 
   // Gonna export an object
   module.exports = {};
@@ -184,7 +167,6 @@ var queries = createCommonjsModule(function (module) {
     }
     // Form pagination query
     query = defaults$$1(options, {
-      order: '-fields.date',
       skip: page === 1 ? 0 : (page - 2) * perPage + initialPerPage,
       limit: page === 1 ? initialPerPage : perPage
     });
@@ -268,56 +250,41 @@ var queries_2 = queries.getPaginatedEntries;
 var queries_3 = queries.getEntry;
 var queries_4 = queries.getEntryBySlug;
 
-var queries$1 = /*#__PURE__*/Object.freeze({
-	default: queries,
-	__moduleExports: queries,
-	getEntries: queries_1,
-	getPaginatedEntries: queries_2,
-	getEntry: queries_3,
-	getEntryBySlug: queries_4
-});
-
-var require$$2$1 = ( image$1 && image ) || image$1;
-
-var require$$3 = ( seo$1 && seo ) || seo$1;
-
-var require$$4 = ( queries$1 && queries ) || queries$1;
-
 var bukwildContentfulUtils = createCommonjsModule(function (module) {
-  var makeClient, merge, queries;
+  var makeClient, merge$$1, queries$$1;
 
-  merge = require$$1;
+  merge$$1 = merge;
 
   // We will export an object
   module.exports = {};
 
   // Accept the API configuration and create the client instance
-  makeClient = require$$2;
+  makeClient = clientFactory;
 
   module.exports.client = {}; // Needed for the client to be added later
 
   module.exports.config = function (options) {
-    return merge(module.exports, {
+    return merge$$1(module.exports, {
       client: makeClient(options)
     });
   };
 
   // Add image helper
-  module.exports.image = require$$2$1;
+  module.exports.image = image;
 
   // Add seo helper
-  module.exports.seo = require$$3;
+  module.exports.seo = seo;
 
   // Add querying helpers
-  queries = require$$4;
+  queries$$1 = queries;
 
-  module.exports.getEntries = queries.getEntries;
+  module.exports.getEntries = queries$$1.getEntries;
 
-  module.exports.getPaginatedEntries = queries.getPaginatedEntries;
+  module.exports.getPaginatedEntries = queries$$1.getPaginatedEntries;
 
-  module.exports.getEntry = queries.getEntry;
+  module.exports.getEntry = queries$$1.getEntry;
 
-  module.exports.getEntryBySlug = queries.getEntryBySlug;
+  module.exports.getEntryBySlug = queries$$1.getEntryBySlug;
 });
 var bukwildContentfulUtils_1 = bukwildContentfulUtils.client;
 var bukwildContentfulUtils_2 = bukwildContentfulUtils.config;

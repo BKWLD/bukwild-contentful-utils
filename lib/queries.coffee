@@ -52,5 +52,5 @@ module.exports.getEntry = (contentType, query = {}) ->
 
 # Get an entry by slug
 module.exports.getEntryBySlug = (contentType, slug, query = {}) ->
-	module.exports.getEntry contentType,
+	module.exports.getEntry contentType, defaults query,
 		'fields.slug': slug

@@ -355,9 +355,9 @@ module.exports.getEntry = function (contentType) {
 module.exports.getEntryBySlug = function (contentType, slug) {
   var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  return module.exports.getEntry(contentType, {
+  return module.exports.getEntry(contentType, defaults(query, {
     'fields.slug': slug
-  });
+  }));
 };
 
 /***/ }),

@@ -2,7 +2,7 @@
   "dependencies": {
     "contentful": "^6.0.1",
     "lodash": "2 - 4",
-    "query-string": "^6.0.0",
+    "query-string": "^5.0.0",
     "serialize-javascript": "^1.5.0"
   },
   "name": "bukwild-contentful-utils",

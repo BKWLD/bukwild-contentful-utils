@@ -104,11 +104,11 @@ Some helper methods for querying Contentful
 
 ```js
 export default {
-  asyncData: async function({ app }) {
+  asyncData: async function({ app, route }) {
     [ article, articles ] = await Promise.all([
       app.$contentful.getEntryBySlug('article', 'my-slug'),
       app.$contentful.getPaginatedEntries('article', {
-        page: 2,
+        page: parseInt(route.query.page) || 1,
         perPage: 40,
       }),
     ])

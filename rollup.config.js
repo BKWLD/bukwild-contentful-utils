@@ -3,6 +3,7 @@ import coffee from 'rollup-plugin-coffee-script';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
 import autoExternal from 'rollup-plugin-auto-external';
+import babel from 'rollup-plugin-babel';
 import pkg from './package.json';
 
 export default {
@@ -14,7 +15,10 @@ export default {
     coffee(),
     nodeResolve({ extensions: ['.js', '.coffee'] }),
     commonjs({ extensions: ['.js', '.coffee'] }),
-    json()
+    json(),
+    babel({
+      exclude: 'node_modules/**'
+    })
   ],
   output: {
     exports: 'named',

@@ -37,10 +37,13 @@ module.exports.getPaginatedEntries = (contentType, {
 # Get a single item
 module.exports.getEntry = (contentType, query = {}) ->
 	client = getClient()
-	entry = await client.getEntries defaults query,
+	client.getEntries defaults query,
 		content_type: contentType
 		limit: 1
-	if entry.items.length
+	.then (entry) ->
+		return unless entry.items.length
+
+		# Merge some sys fields into the object and return just the fields
 		fields = entry.items[0].fields
 		fields.id = entry.items[0].sys.id
 		fields.createdAt = entry.items[0].sys.createdAt
@@ -49,5 +52,5 @@ module.exports.getEntry = (contentType, query = {}) ->
 
 # Get an entry by slug
 module.exports.getEntryBySlug = (contentType, slug, query = {}) ->
-	await module.exports.getEntry contentType,
+	module.exports.getEntry contentType,
 		'fields.slug': slug

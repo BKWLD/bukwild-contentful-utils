@@ -35,7 +35,7 @@ In `nuxt.config.js`:
 
 ```js
   modules: [
-    ['bukwild-contentful-utils', {
+    ['bukwild-contentful-utils/nuxt/module', {
       config: {
         space: process.env.CONTENTFUL_SPACE
         access_token: process.env.CONTENTFUL_API

@@ -77,7 +77,7 @@ module.exports =
 "use strict";
 
 
-var makeClient, merge, queries;
+var makeClient, merge, queries, references;
 
 merge = __webpack_require__(1);
 
@@ -111,6 +111,11 @@ module.exports.getPaginatedEntries = queries.getPaginatedEntries;
 module.exports.getEntry = queries.getEntry;
 
 module.exports.getEntryBySlug = queries.getEntryBySlug;
+
+// Add references helpers
+references = __webpack_require__(11);
+
+module.exports.refs = references.refs;
 
 /***/ }),
 /* 1 */
@@ -365,6 +370,38 @@ module.exports.getEntryBySlug = function (contentType, slug) {
 /***/ (function(module, exports) {
 
 module.exports = require("lodash/defaults");
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+Utility for dealing with reference fields
+*/
+var merge;
+
+// Deps
+merge = __webpack_require__(1);
+
+module.exports = {};
+
+// Take an array of references (that may be empty or undefined), filter out
+// the broken references (like where only the link with no fields is returned),
+// and then return just the attributes, merging in the id and dates
+module.exports.refs = function (entries) {
+  return (entries || []).filter(function (entry) {
+    return entry.fields;
+  }).map(function (entry) {
+    var updatedAt;
+    return merge({}, entry.fields, {
+      id: entry.sys.id,
+      createdAt: entry.sys.createdAt
+    }, updatedAt = entry.sys.updatedAt);
+  });
+};
 
 /***/ })
 /******/ ]);

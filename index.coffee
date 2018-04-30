@@ -21,3 +21,7 @@ module.exports.getEntries = queries.getEntries
 module.exports.getPaginatedEntries = queries.getPaginatedEntries
 module.exports.getEntry = queries.getEntry
 module.exports.getEntryBySlug = queries.getEntryBySlug
+
+# Add references helpers
+references = require './lib/references'
+module.exports.refs = references.refs

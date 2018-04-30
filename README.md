@@ -71,6 +71,7 @@ Then later, within components, access utils like:
 
 See the Configuration instructions for an example of how to get access to the raw Contentful client.
 
+
 ### Image
 
 Helper method for creating Contentful URLs that transform images:
@@ -96,6 +97,7 @@ this.$contentful.image(entry.image, 500, 300, { quality: 60 })
 - JPGs will be progressive
 - Returns `null` if no image has been defined
 
+
 ### Queries
 
 Some helper methods for querying Contentful
@@ -114,6 +116,7 @@ export default {
     ])
     return { article, articles }
   },
+}
 ```
 
 #### APIs
@@ -146,6 +149,34 @@ _Get a list of entries for a given content type_
 - `query` : Additional query options that will get merged
 
 _Get a slice of entries given pagination params_
+
+
+### References
+
+Helpers for dealing with references
+
+#### Example
+
+```js
+export default {
+  props: {
+    block: Object,
+  },
+  template: `
+    <ul><li
+      v-for='resource in $contentful.refs(block.resources)'
+      :key='resource.id'> {{ resource.name }}
+    </li></ul>`
+}
+```
+
+#### APIs
+
+`$contentful.refs(entries:array)`
+- `entries` : An array of reference entries (may be undefined)
+
+_Take an array of references (that may be empty or undefined), filter out the broken references (like where only the link with no fields is returned), and then return just the attributes, merging in the id and dates_
+
 
 ### SEO
 

@@ -15,5 +15,5 @@ module.exports.refs = (entries) ->
 		.map (entry) -> merge {}, entry.fields,
 			id: entry.sys.id
 			createdAt: entry.sys.createdAt
-			updatedAt = entry.sys.updatedAt
+			updatedAt: entry.sys.updatedAt
 			sys: entry.sys

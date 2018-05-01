@@ -25,3 +25,4 @@ module.exports.getEntryBySlug = queries.getEntryBySlug
 # Add references helpers
 references = require './lib/references'
 module.exports.refs = references.refs
+module.exports.ref = references.ref

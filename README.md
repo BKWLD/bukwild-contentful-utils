@@ -177,6 +177,11 @@ export default {
 
 _Take an array of references (that may be empty or undefined), filter out the broken references (like where only the link with no fields is returned), and then return just the attributes, merging in the id, dates, and sys_
 
+`$contentful.ref(entry:object)`
+- `entry` : A single reference entry
+
+_Merge in the id, dates, and sys into an entry's fields_
+
 
 ### SEO
 

@@ -12,8 +12,12 @@ module.exports = {}
 module.exports.refs = (entries) ->
 	(entries || [])
 		.filter (entry) -> entry.fields
-		.map (entry) -> merge {}, entry.fields,
-			id: entry.sys.id
-			createdAt: entry.sys.createdAt
-			updatedAt: entry.sys.updatedAt
-			sys: entry.sys
+		.map (entry) -> module.exports.ref entry
+
+# Merge id, dates, and sys into a single ref
+module.exports.ref = (entry) ->
+	merge {}, entry.fields,
+		id: entry.sys.id
+		createdAt: entry.sys.createdAt
+		updatedAt: entry.sys.updatedAt
+		sys: entry.sys

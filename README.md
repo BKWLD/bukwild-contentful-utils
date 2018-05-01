@@ -72,19 +72,19 @@ Then later, within components, access utils like:
 See the Configuration instructions for an example of how to get access to the raw Contentful client.
 
 
-### Image
+### Img
 
 Helper method for creating Contentful URLs that transform images:
 
 #### Example
 
 ```js
-this.$contentful.image(entry.image, 500, 300, { quality: 60 })
+this.$contentful.img(entry.image, 500, 300, { quality: 60 })
 ```
 
 #### API
 
-`image(field:Object, width:Integer, height:Integer, options:Object)`
+`img(field:Object, width:Integer, height:Integer, options:Object)`
 - `fieldName` : The property on an entry result from Contentful for the image
 - `width` : The desired image width
 - `height`: The desired image height

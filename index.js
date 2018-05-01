@@ -395,11 +395,10 @@ module.exports.refs = function (entries) {
   return (entries || []).filter(function (entry) {
     return entry.fields;
   }).map(function (entry) {
-    var updatedAt;
     return merge({}, entry.fields, {
       id: entry.sys.id,
-      createdAt: entry.sys.createdAt
-    }, updatedAt = entry.sys.updatedAt, {
+      createdAt: entry.sys.createdAt,
+      updatedAt: entry.sys.updatedAt,
       sys: entry.sys
     });
   });

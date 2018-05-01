@@ -16,3 +16,4 @@ module.exports.refs = (entries) ->
 			id: entry.sys.id
 			createdAt: entry.sys.createdAt
 			updatedAt = entry.sys.updatedAt
+			sys: entry.sys

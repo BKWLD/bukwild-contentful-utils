@@ -10,7 +10,8 @@ module.exports.config = (options) ->
 	merge module.exports, client: makeClient options
 
 # Add image helper
-module.exports.image = require './lib/image'
+module.exports.img = require './lib/image'
+module.exports.image = module.exports.img # Backwards compatibilty
 
 # Add seo helper
 module.exports.seo = require './lib/seo'

@@ -96,7 +96,10 @@ module.exports.config = function (options) {
 };
 
 // Add image helper
-module.exports.image = __webpack_require__(5);
+module.exports.img = __webpack_require__(5);
+
+module.exports.image = module.exports.img; // Backwards compatibilty
+
 
 // Add seo helper
 module.exports.seo = __webpack_require__(7);
@@ -116,6 +119,8 @@ module.exports.getEntryBySlug = queries.getEntryBySlug;
 references = __webpack_require__(11);
 
 module.exports.refs = references.refs;
+
+module.exports.ref = references.ref;
 
 /***/ }),
 /* 1 */
@@ -395,12 +400,17 @@ module.exports.refs = function (entries) {
   return (entries || []).filter(function (entry) {
     return entry.fields;
   }).map(function (entry) {
-    return merge({}, entry.fields, {
-      id: entry.sys.id,
-      createdAt: entry.sys.createdAt,
-      updatedAt: entry.sys.updatedAt,
-      sys: entry.sys
-    });
+    return module.exports.ref(entry);
+  });
+};
+
+// Merge id, dates, and sys into a single ref
+module.exports.ref = function (entry) {
+  return merge({}, entry.fields, {
+    id: entry.sys.id,
+    createdAt: entry.sys.createdAt,
+    updatedAt: entry.sys.updatedAt,
+    sys: entry.sys
   });
 };
 

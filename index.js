@@ -399,7 +399,9 @@ module.exports.refs = function (entries) {
     return merge({}, entry.fields, {
       id: entry.sys.id,
       createdAt: entry.sys.createdAt
-    }, updatedAt = entry.sys.updatedAt);
+    }, updatedAt = entry.sys.updatedAt, {
+      sys: entry.sys
+    });
   });
 };
 

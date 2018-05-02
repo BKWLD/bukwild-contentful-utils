@@ -14,10 +14,11 @@ module.exports.refs = (entries) ->
 		.filter (entry) -> entry.fields
 		.map (entry) -> module.exports.ref entry
 
-# Merge id, dates, and sys into a single ref
+# Merge id, dates, and sys into the fields, maintining reactivity
 module.exports.ref = (entry) ->
-	merge {}, entry.fields,
+	merge entry.fields,
 		id: entry.sys.id
 		createdAt: entry.sys.createdAt
 		updatedAt: entry.sys.updatedAt
 		sys: entry.sys
+	return entry.fields

@@ -404,14 +404,15 @@ module.exports.refs = function (entries) {
   });
 };
 
-// Merge id, dates, and sys into a single ref
+// Merge id, dates, and sys into the fields, maintining reactivity
 module.exports.ref = function (entry) {
-  return merge({}, entry.fields, {
+  merge(entry.fields, {
     id: entry.sys.id,
     createdAt: entry.sys.createdAt,
     updatedAt: entry.sys.updatedAt,
     sys: entry.sys
   });
+  return entry.fields;
 };
 
 /***/ })

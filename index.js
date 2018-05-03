@@ -355,6 +355,7 @@ module.exports.getEntry = function (contentType) {
     fields.id = entry.items[0].sys.id;
     fields.createdAt = entry.items[0].sys.createdAt;
     fields.updatedAt = entry.items[0].sys.updatedAt;
+    fields.sys = entry.items[0].sys;
     return fields;
   });
 };
@@ -408,6 +409,7 @@ module.exports.ref = function (entry) {
   fields.id = entry.sys.id;
   fields.createdAt = entry.sys.createdAt;
   fields.updatedAt = entry.sys.updatedAt;
+  fields.sys = entry.sys;
   return fields;
 };
 

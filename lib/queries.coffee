@@ -47,6 +47,7 @@ module.exports.getEntry = (contentType, query = {}) ->
 		fields.id = entry.items[0].sys.id
 		fields.createdAt = entry.items[0].sys.createdAt
 		fields.updatedAt = entry.items[0].sys.updatedAt
+		fields.sys = entry.items[0].sys
 		return fields
 
 # Get an entry by slug

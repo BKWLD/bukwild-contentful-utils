@@ -20,4 +20,5 @@ module.exports.ref = (entry) ->
 	fields.id = entry.sys.id
 	fields.createdAt = entry.sys.createdAt
 	fields.updatedAt = entry.sys.updatedAt
+	fields.sys = entry.sys
 	return fields

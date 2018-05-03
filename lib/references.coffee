@@ -10,12 +10,12 @@ module.exports = {}
 # and then return just the attributes, merging in the id and dates
 module.exports.refs = (entries) ->
 	(entries || [])
-		.filter (entry) -> entry.fields
+		.filter (entry) -> entry?.fields
 		.map (entry) -> module.exports.ref entry
 
 # Merge id, dates, and sys into the fields, maintining reactivity
 module.exports.ref = (entry) ->
-	return unless entry.fields
+	return unless entry?.fields
 	fields = entry.fields
 	fields.id = entry.sys.id
 	fields.createdAt = entry.items[0].sys.createdAt

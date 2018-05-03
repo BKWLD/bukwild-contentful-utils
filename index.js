@@ -290,12 +290,10 @@ module.exports = require("lodash/isObject");
 /*
 Helpers to build reusuable queries
 */
-var defaults, getClient, merge;
+var defaults, getClient;
 
 // Deps
 defaults = __webpack_require__(10);
-
-merge = __webpack_require__(1);
 
 getClient = __webpack_require__(2);
 
@@ -386,11 +384,7 @@ module.exports = require("lodash/defaults");
 /*
 Utility for dealing with reference fields
 */
-var merge;
-
 // Deps
-merge = __webpack_require__(1);
-
 module.exports = {};
 
 // Take an array of references (that may be empty or undefined), filter out
@@ -398,7 +392,7 @@ module.exports = {};
 // and then return just the attributes, merging in the id and dates
 module.exports.refs = function (entries) {
   return (entries || []).filter(function (entry) {
-    return entry.fields;
+    return entry != null ? entry.fields : void 0;
   }).map(function (entry) {
     return module.exports.ref(entry);
   });
@@ -406,13 +400,15 @@ module.exports.refs = function (entries) {
 
 // Merge id, dates, and sys into the fields, maintining reactivity
 module.exports.ref = function (entry) {
-  merge(entry.fields, {
-    id: entry.sys.id,
-    createdAt: entry.sys.createdAt,
-    updatedAt: entry.sys.updatedAt,
-    sys: entry.sys
-  });
-  return entry.fields;
+  var fields;
+  if (!(entry != null ? entry.fields : void 0)) {
+    return;
+  }
+  fields = entry.fields;
+  fields.id = entry.sys.id;
+  fields.createdAt = entry.items[0].sys.createdAt;
+  fields.updatedAt = entry.items[0].sys.updatedAt;
+  return fields;
 };
 
 /***/ })

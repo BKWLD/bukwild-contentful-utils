@@ -15,8 +15,9 @@ module.exports.refs = (entries) ->
 
 # Merge id, dates, and sys into the fields, maintining reactivity
 module.exports.ref = (entry) ->
-	fields = entry.items[0].fields
-	fields.id = entry.items[0].sys.id
+	return unless entry.fields
+	fields = entry.fields
+	fields.id = entry.sys.id
 	fields.createdAt = entry.items[0].sys.createdAt
 	fields.updatedAt = entry.items[0].sys.updatedAt
 	return fields

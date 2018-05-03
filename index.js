@@ -406,8 +406,8 @@ module.exports.ref = function (entry) {
   }
   fields = entry.fields;
   fields.id = entry.sys.id;
-  fields.createdAt = entry.items[0].sys.createdAt;
-  fields.updatedAt = entry.items[0].sys.updatedAt;
+  fields.createdAt = entry.sys.createdAt;
+  fields.updatedAt = entry.sys.updatedAt;
   return fields;
 };
 

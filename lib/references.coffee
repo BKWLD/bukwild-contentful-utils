@@ -18,6 +18,6 @@ module.exports.ref = (entry) ->
 	return unless entry?.fields
 	fields = entry.fields
 	fields.id = entry.sys.id
-	fields.createdAt = entry.items[0].sys.createdAt
-	fields.updatedAt = entry.items[0].sys.updatedAt
+	fields.createdAt = entry.sys.createdAt
+	fields.updatedAt = entry.sys.updatedAt
 	return fields

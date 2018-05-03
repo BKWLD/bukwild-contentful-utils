@@ -3,7 +3,6 @@ Utility for dealing with reference fields
 ###
 
 # Deps
-merge = require 'lodash/merge'
 module.exports = {}
 
 # Take an array of references (that may be empty or undefined), filter out
@@ -16,9 +15,8 @@ module.exports.refs = (entries) ->
 
 # Merge id, dates, and sys into the fields, maintining reactivity
 module.exports.ref = (entry) ->
-	merge entry.fields,
-		id: entry.sys.id
-		createdAt: entry.sys.createdAt
-		updatedAt: entry.sys.updatedAt
-		sys: entry.sys
-	return entry.fields
+	fields = entry.items[0].fields
+	fields.id = entry.items[0].sys.id
+	fields.createdAt = entry.items[0].sys.createdAt
+	fields.updatedAt = entry.items[0].sys.updatedAt
+	return fields

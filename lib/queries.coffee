@@ -4,7 +4,6 @@ Helpers to build reusuable queries
 
 # Deps
 defaults = require 'lodash/defaults'
-merge = require 'lodash/merge'
 getClient = require './client-factory'
 
 # Gonna export an object

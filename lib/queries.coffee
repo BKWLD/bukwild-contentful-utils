@@ -12,7 +12,7 @@ module.exports = {}
 # Get a list of entries given a content type
 module.exports.getEntries = (contentType, options = {}) ->
 	client = getClient()
-	client.getEntries defaults options,
+	client.getEntries defaults {}, options,
 		content_type: contentType
 
 # Get a paginateed list of entries, supporting a different number of results
@@ -26,7 +26,7 @@ module.exports.getPaginatedEntries = (contentType, {
 	initialPerPage = perPage unless initialPerPage
 
 	# Form pagination query
-	query = defaults options,
+	query = defaults {}, options,
 		skip: if page == 1 then 0 else (page - 2) * perPage + initialPerPage
 		limit: if page == 1 then initialPerPage else perPage
 
@@ -36,7 +36,7 @@ module.exports.getPaginatedEntries = (contentType, {
 # Get a single item
 module.exports.getEntry = (contentType, query = {}) ->
 	client = getClient()
-	client.getEntries defaults query,
+	client.getEntries defaults {}, query,
 		content_type: contentType
 		limit: 1
 	.then (entry) ->
@@ -52,5 +52,5 @@ module.exports.getEntry = (contentType, query = {}) ->
 
 # Get an entry by slug
 module.exports.getEntryBySlug = (contentType, slug, query = {}) ->
-	module.exports.getEntry contentType, defaults query,
+	module.exports.getEntry contentType, defaults {}, query,
 		'fields.slug': slug

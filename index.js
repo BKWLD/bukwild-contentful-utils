@@ -307,7 +307,7 @@ module.exports.getEntries = function (contentType) {
 
   var client;
   client = getClient();
-  return client.getEntries(defaults(options, {
+  return client.getEntries(defaults({}, options, {
     content_type: contentType
   }));
 };
@@ -329,7 +329,7 @@ module.exports.getPaginatedEntries = function (contentType, _ref) {
     initialPerPage = perPage;
   }
   // Form pagination query
-  query = defaults(options, {
+  query = defaults({}, options, {
     skip: page === 1 ? 0 : (page - 2) * perPage + initialPerPage,
     limit: page === 1 ? initialPerPage : perPage
   });
@@ -343,7 +343,7 @@ module.exports.getEntry = function (contentType) {
 
   var client;
   client = getClient();
-  return client.getEntries(defaults(query, {
+  return client.getEntries(defaults({}, query, {
     content_type: contentType,
     limit: 1
   })).then(function (entry) {
@@ -365,7 +365,7 @@ module.exports.getEntry = function (contentType) {
 module.exports.getEntryBySlug = function (contentType, slug) {
   var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  return module.exports.getEntry(contentType, defaults(query, {
+  return module.exports.getEntry(contentType, defaults({}, query, {
     'fields.slug': slug
   }));
 };

@@ -20,7 +20,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "version": "npm run build && git add -A",
+    "postversion": "git push --follow-tags"
   },
   "repository": {
     "type": "git",

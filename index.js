@@ -386,7 +386,11 @@ module.exports = require("lodash/defaults");
 /*
 Utility for dealing with reference fields
 */
+var merge;
+
 // Deps
+merge = __webpack_require__(1);
+
 module.exports = {};
 
 // Take an array of references (that may be empty or undefined), filter out
@@ -406,7 +410,7 @@ module.exports.ref = function (entry) {
   if (!(entry != null ? entry.fields : void 0)) {
     return;
   }
-  fields = entry.fields;
+  fields = merge({}, entry.fields);
   fields.id = entry.sys.id;
   fields.createdAt = entry.sys.createdAt;
   fields.updatedAt = entry.sys.updatedAt;

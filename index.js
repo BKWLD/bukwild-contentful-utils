@@ -189,7 +189,6 @@ module.exports = function (field, width, height) {
   params = {};
   params.w = width;
   params.h = height;
-  params.fm = options.format || 'jpg';
   params.q = options.quality || (params.fm === 'jpg' ? 90 : void 0);
   if (params.fm === 'jpg') {
     params.fl = 'progressive';

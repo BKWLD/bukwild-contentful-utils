@@ -89,7 +89,7 @@ this.$contentful.img(entry.image, 500, 300, { quality: 60 })
 - `width` : The desired image width
 - `height`: The desired image height
 - `options`
-  - `format` : Image format, defaults to 'jpg'
+  - `format`: Image format (jpg, png, etc)
   - `quality`: Image quality, defaults to `90` if a jpg
 
 #### Notes

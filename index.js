@@ -352,7 +352,7 @@ module.exports.getEntry = function (contentType) {
       return;
     }
     // Merge some sys fields into the object and return just the fields
-    fields = entry.items[0].fields;
+    fields = entry.items[0].fields || {};
     fields.id = entry.items[0].sys.id;
     fields.createdAt = entry.items[0].sys.createdAt;
     fields.updatedAt = entry.items[0].sys.updatedAt;

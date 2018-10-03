@@ -11,6 +11,7 @@ module.exports = (field, width, height, options = {}) ->
 	params = {}
 	params.w = width
 	params.h = height
+	params.fm = options.format if options.format
 	params.q = options.quality || (90 if params.fm == 'jpg')
 	params.fl = 'progressive' if params.fm == 'jpg'
 

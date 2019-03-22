@@ -5,16 +5,19 @@ Helpers to build reusuable queries
 # Deps
 defaults = require 'lodash/defaults'
 getClient = require './client-factory'
-{ ref } = require './references'
+{ refs, ref } = require './references'
 
 # Gonna export an object
 module.exports = {}
 
 # Get a list of entries given a content type
-module.exports.getEntries = (contentType, options = {}) ->
+module.exports.getEntries = getEntries = (contentType, options = {}) ->
 	client = getClient()
 	client.getEntries defaults {}, options,
 		content_type: contentType
+	.then (response) ->
+		response.items = refs response.items
+		return response
 
 # Get a paginateed list of entries, supporting a different number of results
 # on the first page.
@@ -32,10 +35,10 @@ module.exports.getPaginatedEntries = (contentType, {
 		limit: if page == 1 then initialPerPage else perPage
 
 	# Run the query
-	module.exports.getEntries contentType, query
+	getEntries contentType, query
 
 # Get a single item
-module.exports.getEntry = (contentType, query = {}) ->
+module.exports.getEntry = getEntry = (contentType, query = {}) ->
 	client = getClient()
 	client.getEntries defaults {}, query,
 		content_type: contentType
@@ -46,5 +49,5 @@ module.exports.getEntry = (contentType, query = {}) ->
 
 # Get an entry by slug
 module.exports.getEntryBySlug = (contentType, slug, query = {}) ->
-	module.exports.getEntry contentType, defaults {}, query,
+	getEntry contentType, defaults {}, query,
 		'fields.slug': slug

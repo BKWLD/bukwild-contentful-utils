@@ -315,7 +315,7 @@ module.exports = require("lodash/isObject");
 /*
 Helpers to build reusuable queries
 */
-var defaults, getClient, ref;
+var defaults, getClient, getEntries, getEntry, ref, refs;
 
 // Deps
 defaults = __webpack_require__(10);
@@ -325,18 +325,22 @@ getClient = __webpack_require__(2);
 // Gonna export an object
 var _require = __webpack_require__(11);
 
+refs = _require.refs;
 ref = _require.ref;
 module.exports = {};
 
 // Get a list of entries given a content type
-module.exports.getEntries = function (contentType) {
+module.exports.getEntries = getEntries = function getEntries(contentType) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   var client;
   client = getClient();
   return client.getEntries(defaults({}, options, {
     content_type: contentType
-  }));
+  })).then(function (response) {
+    response.items = refs(response.items);
+    return response;
+  });
 };
 
 // Get a paginateed list of entries, supporting a different number of results
@@ -361,11 +365,11 @@ module.exports.getPaginatedEntries = function (contentType, _ref) {
     limit: page === 1 ? initialPerPage : perPage
   });
   // Run the query
-  return module.exports.getEntries(contentType, query);
+  return getEntries(contentType, query);
 };
 
 // Get a single item
-module.exports.getEntry = function (contentType) {
+module.exports.getEntry = getEntry = function getEntry(contentType) {
   var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   var client;
@@ -385,7 +389,7 @@ module.exports.getEntry = function (contentType) {
 module.exports.getEntryBySlug = function (contentType, slug) {
   var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  return module.exports.getEntry(contentType, defaults({}, query, {
+  return getEntry(contentType, defaults({}, query, {
     'fields.slug': slug
   }));
 };

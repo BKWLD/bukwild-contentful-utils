@@ -453,7 +453,7 @@ module.exports.ref = _ref = function ref(entry) {
       value = value.map(function (item) {
         var ref1;
         if ((item != null ? (ref1 = item.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
-          return _ref(item, parents.concat([item.sys.id]));
+          return _ref(item, parents.concat([entry.sys.id]));
         } else {
           return item;
         }
@@ -461,7 +461,7 @@ module.exports.ref = _ref = function ref(entry) {
 
       // If the value looks like an entry, get the ref of it
     } else if ((value != null ? (ref1 = value.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
-      value = _ref(value, parents.concat([value.sys.id]));
+      value = _ref(value, parents.concat([entry.sys.id]));
     }
 
     // Merge the value into the output object

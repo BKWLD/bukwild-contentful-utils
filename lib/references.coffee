@@ -31,12 +31,12 @@ module.exports.ref = ref = (entry, parents = []) ->
 		if Array.isArray value
 			value = value.map (item) -> 
 				if item?.sys?.type == 'Entry' 
-				then ref item, parents.concat [item.sys.id]
+				then ref item, parents.concat [entry.sys.id]
 				else item
 		
 		# If the value looks like an entry, get the ref of it
 		else if value?.sys?.type == 'Entry'
-			value = ref value, parents.concat [value.sys.id]
+			value = ref value, parents.concat [entry.sys.id]
 		
 		# Merge the value into the output object
 		output[key] = value

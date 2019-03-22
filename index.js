@@ -430,28 +430,38 @@ module.exports.refs = function (entries) {
 
 // Merge id, dates, and sys into the fields, maintaining reactivity
 module.exports.ref = _ref = function ref(entry) {
+  var parents = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+
+  // Require fields
   if (!(entry != null ? entry.fields : void 0)) {
+    return;
+  }
+
+  // Prevent infinite loops since Contentful JSON can be recursive
+  if (parents.includes(entry.sys.id)) {
     return;
   }
 
   // Recurse through the object and apply ref to child references
   return Object.keys(entry.fields).reduce(function (output, key) {
-    var value;
+    var ref1, value;
     value = entry.fields[key];
 
     // If the value is an array, apply ref to any items that look like entries
     if (Array.isArray(value)) {
       value = value.map(function (item) {
-        if (item != null ? item.fields : void 0) {
-          return _ref(item);
+        var ref1;
+        if ((item != null ? (ref1 = item.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
+          return _ref(item, parents.concat([item.sys.id]));
         } else {
           return item;
         }
       });
 
       // If the value looks like an entry, get the ref of it
-    } else if (value != null ? value.fields : void 0) {
-      value = _ref(value);
+    } else if ((value != null ? (ref1 = value.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
+      value = _ref(value, parents.concat([value.sys.id]));
     }
 
     // Merge the value into the output object

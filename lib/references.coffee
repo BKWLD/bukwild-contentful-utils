@@ -15,8 +15,13 @@ module.exports.refs = (entries) ->
 		.map (entry) -> ref entry
 
 # Merge id, dates, and sys into the fields, maintaining reactivity
-module.exports.ref = ref = (entry) ->
+module.exports.ref = ref = (entry, parents = []) ->
+	
+	# Require fields
 	return unless entry?.fields
+	
+	# Prevent infinite loops since Contentful JSON can be recursive
+	return if parents.includes entry.sys.id
 	
 	# Recurse through the object and apply ref to child references
 	Object.keys(entry.fields).reduce (output, key) ->
@@ -24,11 +29,14 @@ module.exports.ref = ref = (entry) ->
 		
 		# If the value is an array, apply ref to any items that look like entries
 		if Array.isArray value
-			value = value.map (item) -> if item?.fields then ref item else item
+			value = value.map (item) -> 
+				if item?.sys?.type == 'Entry' 
+				then ref item, parents.concat [item.sys.id]
+				else item
 		
 		# If the value looks like an entry, get the ref of it
-		else if value?.fields
-			value = ref value
+		else if value?.sys?.type == 'Entry'
+			value = ref value, parents.concat [value.sys.id]
 		
 		# Merge the value into the output object
 		output[key] = value

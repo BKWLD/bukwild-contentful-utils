@@ -85,7 +85,7 @@ this.$contentful.img(entry.image, 500, 300, { quality: 60 })
 #### API
 
 `img(field:Object, width:Integer, height:Integer, options:Object)`
-- `fieldName` : The property on an entry result from Contentful for the image
+- `field` : The property on an entry result from Contentful for the image
 - `width` : The desired image width
 - `height`: The desired image height
 - `options`
@@ -97,6 +97,21 @@ this.$contentful.img(entry.image, 500, 300, { quality: 60 })
 - JPGs will be progressive
 - Returns `null` if no image has been defined
 
+
+### Aspect
+
+Return the aspect ratio for an image:
+
+#### Example
+
+```js
+this.$contentful.aspect(entry.image)
+```
+
+#### API
+
+`aspect(field:Object)`
+- `field` : The property on an entry result from Contentful for the image
 
 ### Queries
 

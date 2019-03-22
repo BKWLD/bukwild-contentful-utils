@@ -77,7 +77,7 @@ module.exports =
 "use strict";
 
 
-var makeClient, merge, queries, references;
+var image, makeClient, merge, queries, references;
 
 merge = __webpack_require__(1);
 
@@ -96,10 +96,13 @@ module.exports.config = function (options) {
 };
 
 // Add image helper
-module.exports.img = __webpack_require__(5);
+image = __webpack_require__(5);
+
+module.exports.img = image.img;
 
 module.exports.image = module.exports.img; // Backwards compatibilty
 
+module.exports.aspect = image.aspect;
 
 // Add seo helper
 module.exports.seo = __webpack_require__(7);
@@ -177,12 +180,15 @@ var queryString;
 
 queryString = __webpack_require__(6);
 
-module.exports = function (field, width, height) {
+module.exports = {};
+
+// Apply crop rules to an image
+module.exports.img = function (field, width, height) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
   var params, ref, ref1, url;
   // Make sure that a valid field was passed
-  if (!(field != null ? (ref = field.fields) != null ? (ref1 = ref.file) != null ? ref1.url : void 0 : void 0 : void 0)) {
+  if (!(url = field != null ? (ref = field.fields) != null ? (ref1 = ref.file) != null ? ref1.url : void 0 : void 0 : void 0)) {
     return;
   }
   // Create query params
@@ -197,8 +203,24 @@ module.exports = function (field, width, height) {
     params.fl = 'progressive';
   }
   // Make the URL
-  url = field.fields.file.url;
   return url + '?' + queryString.stringify(params);
+};
+
+// Return the aspect ratio of an image
+module.exports.aspect = function (field) {
+  var height, image, ref, ref1, ref2, width;
+
+  // Make sure that a valid field was passed
+  if (!(image = field != null ? (ref = field.fields) != null ? (ref1 = ref.file) != null ? (ref2 = ref1.details) != null ? ref2.image : void 0 : void 0 : void 0 : void 0)) {
+    return;
+  }
+
+  // Make the aspect ratio
+  var _image = image;
+  width = _image.width;
+  height = _image.height;
+
+  return width / height;
 };
 
 /***/ }),

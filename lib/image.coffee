@@ -2,10 +2,13 @@
 Util to make formatting images easier
 ###
 queryString = require 'query-string'
-module.exports = (field, width, height, options = {}) ->
+module.exports = {}
+
+# Apply crop rules to an image
+module.exports.img = (field, width, height, options = {}) ->
 
 	# Make sure that a valid field was passed
-	return unless field?.fields?.file?.url
+	return unless url = field?.fields?.file?.url
 
 	# Create query params
 	params = {}
@@ -16,5 +19,14 @@ module.exports = (field, width, height, options = {}) ->
 	params.fl = 'progressive' if params.fm == 'jpg'
 
 	# Make the URL
-	url = field.fields.file.url
 	"#{url}?#{queryString.stringify(params)}"
+
+# Return the aspect ratio of an image
+module.exports.aspect = (field) ->
+	
+	# Make sure that a valid field was passed
+	return unless image = field?.fields?.file?.details?.image
+	
+	# Make the aspect ratio
+	{ width, height } = image
+	return width / height

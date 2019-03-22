@@ -5,6 +5,7 @@ Helpers to build reusuable queries
 # Deps
 defaults = require 'lodash/defaults'
 getClient = require './client-factory'
+{ ref } = require './references'
 
 # Gonna export an object
 module.exports = {}
@@ -39,16 +40,9 @@ module.exports.getEntry = (contentType, query = {}) ->
 	client.getEntries defaults {}, query,
 		content_type: contentType
 		limit: 1
-	.then (entry) ->
-		return unless entry.items.length
-
-		# Merge some sys fields into the object and return just the fields
-		fields = entry.items[0].fields || {}
-		fields.id = entry.items[0].sys.id
-		fields.createdAt = entry.items[0].sys.createdAt
-		fields.updatedAt = entry.items[0].sys.updatedAt
-		fields.sys = entry.items[0].sys
-		return fields
+	.then (response) ->
+		return unless response.items.length
+		return ref response.items[0] # Auto apply ref
 
 # Get an entry by slug
 module.exports.getEntryBySlug = (contentType, slug, query = {}) ->

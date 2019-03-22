@@ -315,7 +315,7 @@ module.exports = require("lodash/isObject");
 /*
 Helpers to build reusuable queries
 */
-var defaults, getClient;
+var defaults, getClient, ref;
 
 // Deps
 defaults = __webpack_require__(10);
@@ -323,6 +323,9 @@ defaults = __webpack_require__(10);
 getClient = __webpack_require__(2);
 
 // Gonna export an object
+var _require = __webpack_require__(11);
+
+ref = _require.ref;
 module.exports = {};
 
 // Get a list of entries given a content type
@@ -370,18 +373,11 @@ module.exports.getEntry = function (contentType) {
   return client.getEntries(defaults({}, query, {
     content_type: contentType,
     limit: 1
-  })).then(function (entry) {
-    var fields;
-    if (!entry.items.length) {
+  })).then(function (response) {
+    if (!response.items.length) {
       return;
     }
-    // Merge some sys fields into the object and return just the fields
-    fields = entry.items[0].fields || {};
-    fields.id = entry.items[0].sys.id;
-    fields.createdAt = entry.items[0].sys.createdAt;
-    fields.updatedAt = entry.items[0].sys.updatedAt;
-    fields.sys = entry.items[0].sys;
-    return fields;
+    return ref(response.items[0]);
   });
 };
 
@@ -410,7 +406,7 @@ module.exports = require("lodash/defaults");
 /*
 Utility for dealing with reference fields
 */
-var merge;
+var merge, _ref;
 
 // Deps
 merge = __webpack_require__(1);
@@ -424,22 +420,47 @@ module.exports.refs = function (entries) {
   return (entries || []).filter(function (entry) {
     return entry != null ? entry.fields : void 0;
   }).map(function (entry) {
-    return module.exports.ref(entry);
+    return _ref(entry);
   });
 };
 
-// Merge id, dates, and sys into the fields, maintining reactivity
-module.exports.ref = function (entry) {
-  var fields;
+// Merge id, dates, and sys into the fields, maintaining reactivity
+module.exports.ref = _ref = function ref(entry) {
   if (!(entry != null ? entry.fields : void 0)) {
     return;
   }
-  fields = merge({}, entry.fields);
-  fields.id = entry.sys.id;
-  fields.createdAt = entry.sys.createdAt;
-  fields.updatedAt = entry.sys.updatedAt;
-  fields.sys = entry.sys;
-  return fields;
+
+  // Recurse through the object and apply ref to child references
+  return Object.keys(entry.fields).reduce(function (output, key) {
+    var value;
+    value = entry.fields[key];
+
+    // If the value is an array, apply ref to any items that look like entries
+    if (Array.isArray(value)) {
+      value = value.map(function (item) {
+        if (item != null ? item.fields : void 0) {
+          return _ref(item);
+        } else {
+          return item;
+        }
+      });
+
+      // If the value looks like an entry, get the ref of it
+    } else if (value != null ? value.fields : void 0) {
+      value = _ref(value);
+    }
+
+    // Merge the value into the output object
+    output[key] = value;
+    return output;
+  }, {
+
+    // Merge into an object containing the most commonly used aspects of sys
+    id: entry.sys.id,
+    createdAt: entry.sys.createdAt,
+    updatedAt: entry.sys.updatedAt,
+    sys: entry.sys
+  });
 };
 
 /***/ })

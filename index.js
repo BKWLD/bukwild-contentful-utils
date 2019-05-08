@@ -77,7 +77,7 @@ module.exports =
 "use strict";
 
 
-var image, makeClient, merge, queries, references;
+var assets, makeClient, merge, queries, references;
 
 merge = __webpack_require__(1);
 
@@ -95,14 +95,16 @@ module.exports.config = function (options) {
   });
 };
 
-// Add image helper
-image = __webpack_require__(5);
+// Add assets helpers
+assets = __webpack_require__(5);
 
-module.exports.img = image.img;
+module.exports.img = assets.img;
 
 module.exports.image = module.exports.img; // Backwards compatibilty
 
-module.exports.aspect = image.aspect;
+module.exports.aspect = assets.aspect;
+
+module.exports.url = assets.url;
 
 // Add seo helper
 module.exports.seo = __webpack_require__(7);
@@ -186,9 +188,9 @@ module.exports = {};
 module.exports.img = function (field, width, height) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  var params, ref, ref1, url;
+  var params, url;
   // Make sure that a valid field was passed
-  if (!(url = field != null ? (ref = field.fields) != null ? (ref1 = ref.file) != null ? ref1.url : void 0 : void 0 : void 0)) {
+  if (!(url = module.exports.url(field))) {
     return;
   }
   // Create query params
@@ -221,6 +223,12 @@ module.exports.aspect = function (field) {
   height = _image.height;
 
   return width / height;
+};
+
+// Get the file url for a reference, which may not exist
+module.exports.url = function (field) {
+  var ref, ref1;
+  return field != null ? (ref = field.fields) != null ? (ref1 = ref.file) != null ? ref1.url : void 0 : void 0 : void 0;
 };
 
 /***/ }),

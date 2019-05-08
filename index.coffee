@@ -9,11 +9,12 @@ module.exports.client = {} # Needed for the client to be added later
 module.exports.config = (options) ->
 	merge module.exports, client: makeClient options
 
-# Add image helper
-image = require './lib/image'
-module.exports.img = image.img
+# Add assets helpers
+assets = require './lib/assets'
+module.exports.img = assets.img
 module.exports.image = module.exports.img # Backwards compatibilty
-module.exports.aspect = image.aspect
+module.exports.aspect = assets.aspect
+module.exports.url = assets.url
 
 # Add seo helper
 module.exports.seo = require './lib/seo'

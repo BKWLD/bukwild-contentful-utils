@@ -8,7 +8,7 @@ module.exports = {}
 module.exports.img = (field, width, height, options = {}) ->
 
 	# Make sure that a valid field was passed
-	return unless url = field?.fields?.file?.url
+	return unless url = module.exports.url field
 
 	# Create query params
 	params = {}
@@ -20,7 +20,7 @@ module.exports.img = (field, width, height, options = {}) ->
 
 	# Make the URL
 	"#{url}?#{queryString.stringify(params)}"
-
+	
 # Return the aspect ratio of an image
 module.exports.aspect = (field) ->
 	
@@ -30,3 +30,6 @@ module.exports.aspect = (field) ->
 	# Make the aspect ratio
 	{ width, height } = image
 	return width / height
+	
+# Get the file url for a reference, which may not exist
+module.exports.url = (field) -> field?.fields?.file?.url

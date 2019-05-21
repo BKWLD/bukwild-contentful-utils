@@ -204,6 +204,9 @@ module.exports.img = function (field, width, height) {
   if (params.fm === 'jpg') {
     params.fl = 'progressive';
   }
+  if (options.fit) {
+    params.fit = options.fit;
+  }
   // Make the URL
   return url + '?' + queryString.stringify(params);
 };

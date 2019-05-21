@@ -91,6 +91,7 @@ this.$contentful.img(entry.image, 500, 300, { quality: 60 })
 - `options`
   - `format`: Image format (jpg, png, etc)
   - `quality`: Image quality, defaults to `90` if a jpg
+  - `fit`: A Contentful [resizing behavior](https://www.contentful.com/developers/docs/references/images-api/#/reference/resizing-&-cropping/change-the-resizing-behavior)
 
 #### Notes
 

@@ -17,6 +17,7 @@ module.exports.img = (field, width, height, options = {}) ->
 	params.fm = options.format if options.format
 	params.q = options.quality || (90 if params.fm == 'jpg')
 	params.fl = 'progressive' if params.fm == 'jpg'
+	params.fit = options.fit if options.fit
 
 	# Make the URL
 	"#{url}?#{queryString.stringify(params)}"

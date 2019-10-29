@@ -51,6 +51,6 @@ module.exports = (seo = {}, defaults) ->
 		{
 			hid: 'canonical'
 			rel: 'canonical'
-			link: seo.canonical
+			href: seo.canonical
 		} if seo.canonical
 	].filter (v) -> !!v # Remove empties

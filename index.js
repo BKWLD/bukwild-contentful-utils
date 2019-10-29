@@ -303,7 +303,7 @@ module.exports = function () {
     link: [seo.canonical ? {
       hid: 'canonical',
       rel: 'canonical',
-      link: seo.canonical
+      href: seo.canonical
     } : void 0].filter(function (v) {
       return !!v; // Remove empties
     })

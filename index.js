@@ -421,12 +421,15 @@ module.exports = require("lodash/defaults");
 /*
 Utility for dealing with reference fields
 */
-var merge, _ref;
+var MAX_DEPTH, merge, _ref;
 
 // Deps
 merge = __webpack_require__(1);
 
 module.exports = {};
+
+// Settings
+MAX_DEPTH = 20;
 
 // Take an array of references (that may be empty or undefined), filter out
 // the broken references (like where only the link with no fields is returned),
@@ -443,22 +446,21 @@ module.exports.refs = function (entries) {
 module.exports.ref = _ref = function ref(entry) {
   var parents = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
-
   // Require fields
   if (!(entry != null ? entry.fields : void 0)) {
     return;
   }
-
   // Prevent infinite loops since Contentful JSON can be recursive
   if (parents.includes(entry.sys.id)) {
     return;
   }
-
+  if (parents.length >= MAX_DEPTH) {
+    return;
+  }
   // Recurse through the object and apply ref to child references
   return Object.keys(entry.fields).reduce(function (output, key) {
     var ref1, value;
     value = entry.fields[key];
-
     // If the value is an array, apply ref to any items that look like entries
     if (Array.isArray(value)) {
       value = value.map(function (item) {
@@ -469,17 +471,14 @@ module.exports.ref = _ref = function ref(entry) {
           return item;
         }
       });
-
       // If the value looks like an entry, get the ref of it
     } else if ((value != null ? (ref1 = value.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
       value = _ref(value, parents.concat([entry.sys.id]));
     }
-
     // Merge the value into the output object
     output[key] = value;
     return output;
   }, {
-
     // Merge into an object containing the most commonly used aspects of sys
     id: entry.sys.id,
     createdAt: entry.sys.createdAt,

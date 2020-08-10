@@ -6,6 +6,9 @@ Utility for dealing with reference fields
 merge = require 'lodash/merge'
 module.exports = {}
 
+# Settings
+MAX_DEPTH = 20
+
 # Take an array of references (that may be empty or undefined), filter out
 # the broken references (like where only the link with no fields is returned),
 # and then return just the attributes, merging in the id and dates
@@ -19,9 +22,11 @@ module.exports.ref = ref = (entry, parents = []) ->
 
 	# Require fields
 	return unless entry?.fields
+
 	# Prevent infinite loops since Contentful JSON can be recursive
 	return if parents.includes entry.sys.id
-	
+	return if parents.length >= MAX_DEPTH
+
 	# Recurse through the object and apply ref to child references
 	Object.keys(entry.fields).reduce (output, key) ->
 		value = entry.fields[key]

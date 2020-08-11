@@ -21,11 +21,11 @@ module.exports.refs = (entries) ->
 module.exports.ref = ref = (entry, parents = []) ->
 
 	# Require fields
-	return unless entry?.fields
+	return undefined unless entry?.fields
 
 	# Prevent infinite loops since Contentful JSON can be recursive
-	return if parents.includes entry.sys.id
-	return if parents.length >= MAX_DEPTH
+	return undefined if parents.includes entry.sys.id
+	return undefined if parents.length >= MAX_DEPTH
 
 	# Recurse through the object and apply ref to child references
 	Object.keys(entry.fields).reduce (output, key) ->
@@ -39,6 +39,9 @@ module.exports.ref = ref = (entry, parents = []) ->
 				if item?.sys?.type == 'Entry' or item?.sys?.linkType == 'Entry'
 				then ref item, parents.concat [entry.sys.id]
 				else item
+
+			# Remove invalid entries for easier iterating
+			.filter (item) -> item != undefined
 
 		# If the value looks like an entry, get the ref of it
 		else if value?.sys?.type == 'Entry'

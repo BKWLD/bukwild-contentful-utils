@@ -7,7 +7,7 @@
   },
   "name": "bukwild-contentful-utils",
   "description": "Utilities for interacting with Contentful with Vue and Nuxt in mind",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "main": "index.js",
   "devDependencies": {
     "babel-core": "^6.26.0",

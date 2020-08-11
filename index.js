@@ -461,11 +461,13 @@ module.exports.ref = _ref = function ref(entry) {
   return Object.keys(entry.fields).reduce(function (output, key) {
     var ref1, value;
     value = entry.fields[key];
-    // If the value is an array, apply ref to any items that look like entries
+    // If the value is an array, apply ref to any items that look like entries.
+    // I've found the linkType property to exist only on draft entries that
+    // are children of a published entry when using live API keys.
     if (Array.isArray(value)) {
       value = value.map(function (item) {
-        var ref1;
-        if ((item != null ? (ref1 = item.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
+        var ref1, ref2;
+        if ((item != null ? (ref1 = item.sys) != null ? ref1.type : void 0 : void 0) === 'Entry' || (item != null ? (ref2 = item.sys) != null ? ref2.linkType : void 0 : void 0) === 'Entry') {
           return _ref(item, parents.concat([entry.sys.id]));
         } else {
           return item;

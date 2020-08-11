@@ -446,16 +446,16 @@ module.exports.refs = function (entries) {
 module.exports.ref = _ref = function ref(entry) {
   var parents = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
-  // Require fields
   if (!(entry != null ? entry.fields : void 0)) {
-    return;
+    // Require fields
+    return void 0;
   }
-  // Prevent infinite loops since Contentful JSON can be recursive
   if (parents.includes(entry.sys.id)) {
-    return;
+    // Prevent infinite loops since Contentful JSON can be recursive
+    return void 0;
   }
   if (parents.length >= MAX_DEPTH) {
-    return;
+    return void 0;
   }
   // Recurse through the object and apply ref to child references
   return Object.keys(entry.fields).reduce(function (output, key) {
@@ -472,6 +472,9 @@ module.exports.ref = _ref = function ref(entry) {
         } else {
           return item;
         }
+        // Remove invalid entries for easier iterating
+      }).filter(function (item) {
+        return item !== void 0;
       });
       // If the value looks like an entry, get the ref of it
     } else if ((value != null ? (ref1 = value.sys) != null ? ref1.type : void 0 : void 0) === 'Entry') {
